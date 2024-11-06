@@ -18,8 +18,8 @@ const convertTimeToText = (timeString) => {
     hour = hour % 12 || 12;
 
     const hourText = `${numberToWords(hour)}`;
-    const minuteText = `${numberToWords(minute)}`;
-    const secontText = `${numberToWords(second)}`;
+    const minuteText = minute < 10 ? `oh ${numberToWords(minute)}` : `${numberToWords(minute)}`;
+    const secontText = `and ${numberToWords(second)} seconds`;
 
     return `${hourText} ${minuteText} ${secontText} ${period}`;
 };
