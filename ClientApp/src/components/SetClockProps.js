@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import ClockProps from './ClockProps'
 
 function SetClockProps(props) {
+    const showPanel = props.showPanel;
+    const togglePanel = props.togglePanel;
+
     const clockProps = new ClockProps()
     const [fontFamily, setFontFamily] = useState(clockProps.fontFamily)
     const [blinkColons, setBlinkColons] = useState(clockProps.blinkColons)
@@ -320,7 +323,7 @@ function SetClockProps(props) {
     };
 
   return (
-    <div id="ClockProps" style={{ overflow: 'auto' }}>
+    <div id="ClockProps">
         <div
             style={{
                 float: 'left',
@@ -330,132 +333,137 @@ function SetClockProps(props) {
                 fontSize: '20pt',
             }}
         >
-        <a style={{ cursor: 'pointer' }} >+/-</a>
-    </div>
-    <div>
-        <div>
-            <h1>Clock Properties</h1>
-            <hr />
+            <a style={{ cursor: 'pointer' }} onClick={togglePanel}>+/-</a>
         </div>
-        <div>
-            <div>
-                <h2>Settings</h2>
-            </div>
-            <div>
-                <div>Font Family</div>
+
+        {showPanel && (
+            <div className="clock-settings-panel">
                 <div>
-                    <input
-                        id="fontFamily"
-                        value={TempfontFamily}
-                        onKeyDown={handleFontFamilyKeyDown}
-                        onChange={handleFontFamilyChange}
-                    />
-                    <button onClick={setClockProps}>✓</button>
+                    <h1>Clock Properties</h1>
+                    <hr />
                 </div>
-            </div>
-            <div>
-                <div>Title Font Size</div>
                 <div>
-                    <input id="titleFontSizeSlide"
-                        type="range"
-                        min="1"        // Minimum font size
-                        max="100"        // Maximum font size
-                        value={titlefontSize}
-                        onChange={handleTitleFontSizeChange}
-                        onBlur={handleFontFamilyBlur}
-                    />
-                </div>
-            </div>
-            <div>
-                <div>Clock Font Size</div>
-                <div>
-                    <input id="clockFontSizeSlide"
-                        type="range"
-                        min="1"        // Minimum font size
-                        max="100"        // Maximum font size
-                        value={clockfontSize}
-                        onChange={handleClockFontSizeChange}
-                    />
-                </div>
-            </div>
-            <div>
-                <div>Title Font Color</div>
-                <div>
-                    {/*<button onClick={setClockProps}>✓</button>*/}
-                    {titleColors.map((color, index) => (
-                        <div key={index}>
-                            <div class="ColorCenteredDiv">
-                                <input
-                                    id="titleFontColorPicker"
-                                    type="color"
-                                    value={color}
-                                    onChange={(e) => handleTitleColorChange(index, e.target.value)}
-                                />
-                            </div>
-                            <div>
-                                <input
-                                    id="titleFontColor"
-                                    value={titleColors}
-                                    onKeyDown={handleFontTitleColorKeyDown}
-                                    onChange={handleFontTitleColorChange}
-                                    onBlur={handleFontTitleColorBlur}
-                                    disabled="true"
-                                />
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <div>
-                <div>Clock Font Color</div>
                     <div>
-                        {clockColors.map((color, index) => (
-                            <div key={index}>
-                                <div class="ColorCenteredDiv">
-                                    <input
-                                        id="clockFontColorPicker"
-                                        type="color"
-                                        value={color}
-                                        onChange={(e) => handlClockColorChange(index, e.target.value)}
-                                    />
+                        <h2>Settings</h2>
+                    </div>
+                    <div>
+                        <div>Font Family</div>
+                        <div>
+                            <input
+                                id="fontFamily"
+                                value={TempfontFamily}
+                                onKeyDown={handleFontFamilyKeyDown}
+                                onChange={handleFontFamilyChange}
+                            />
+                            <button onClick={setClockProps}>✓</button>
+                        </div>
+                    </div>
+                    <div>
+                        <div>Title Font Size</div>
+                        <div>
+                            <input id="titleFontSizeSlide"
+                                type="range"
+                                min="1"        // Minimum font size
+                                max="100"        // Maximum font size
+                                value={titlefontSize}
+                                onChange={handleTitleFontSizeChange}
+                                onBlur={handleFontFamilyBlur}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div>Clock Font Size</div>
+                        <div>
+                            <input id="clockFontSizeSlide"
+                                type="range"
+                                min="1"        // Minimum font size
+                                max="100"        // Maximum font size
+                                value={clockfontSize}
+                                onChange={handleClockFontSizeChange}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div>Title Font Color</div>
+                        <div>
+                            {/*<button onClick={setClockProps}>✓</button>*/}
+                            {titleColors.map((color, index) => (
+                                <div key={index}>
+                                    <div class="ColorCenteredDiv">
+                                        <input
+                                            id="titleFontColorPicker"
+                                            type="color"
+                                            value={color}
+                                            onChange={(e) => handleTitleColorChange(index, e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <input
+                                            id="titleFontColor"
+                                            value={titleColors}
+                                            onKeyDown={handleFontTitleColorKeyDown}
+                                            onChange={handleFontTitleColorChange}
+                                            onBlur={handleFontTitleColorBlur}
+                                            disabled="true"
+                                        />
+                                    </div>
                                 </div>
-                                  <div>
-                                    <input
-                                        id="clockfontColor"
-                                        value={clockColors}
-                                        onKeyDown={handleFontClockColorKeyDown}
-                                        onChange={handleFontClockColorChange}
-                                        onBlur={handleFontClockColorBlur}
-                                        disabled="true"
-                                    />
-                                  </div>
-                              </div>
-                          ))}
-                    {/*<button onClick={setClockProps}>✓</button>*/}
+                            ))}
+                        </div>
+                    </div>
+                    <div>
+                        <div>Clock Font Color</div>
+                        <div>
+                            {clockColors.map((color, index) => (
+                                <div key={index}>
+                                    <div class="ColorCenteredDiv">
+                                        <input
+                                            id="clockFontColorPicker"
+                                            type="color"
+                                            value={color}
+                                            onChange={(e) => handlClockColorChange(index, e.target.value)}
+                                        />
+                                    </div>
+                                    <div>
+                                        <input
+                                            id="clockfontColor"
+                                            value={clockColors}
+                                            onKeyDown={handleFontClockColorKeyDown}
+                                            onChange={handleFontClockColorChange}
+                                            onBlur={handleFontClockColorBlur}
+                                            disabled="true"
+                                        />
+                                    </div>
+                                </div>
+                            ))}
+                            {/*<button onClick={setClockProps}>✓</button>*/}
+                        </div>
+                    </div>
+                    <div>
+                        <div>Blink Colons</div>
+                        <div>
+                            <input
+                                id="blinkColons"
+                                checked={blinkColons}
+                                type="checkbox"
+                                onChange={setBlinkColonsUI}
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <div>
+                            <button onClick={handleCreateUpdate} style={{ marginTop: '20px' }}>Save Preset</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <div>Blink Colons</div>
+                <hr />
                 <div>
-                    <input
-                        id="blinkColons"
-                        checked={blinkColons}
-                        type="checkbox"
-                        onChange={setBlinkColonsUI}
-                        />
+                    <h2>Presets</h2>
+                    <div>{presetsDisplay}</div>
                 </div>
             </div>
-            <div>
-                <div>
-                    <button onClick={handleCreateUpdate} style={{ marginTop: '20px' }}>Save Preset</button>
-                </div>
-            </div>
-        </div>
-        <hr />
-        <div>
-            <h2>Presets</h2>
-            <div>{presetsDisplay}</div>
-        </div>
+        )}
+    <div>
       </div>
     </div>
   )
