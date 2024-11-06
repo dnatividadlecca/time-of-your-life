@@ -12,7 +12,7 @@ namespace time.Controllers;
 [Route("[controller]")]
 public class ClockController : ControllerBase
 {
-    private static List<ClockProps> _presets = new List<ClockProps>();
+    //private static List<ClockProps> _presets = new List<ClockProps>();
 
     private readonly ILogger<ClockController> _logger;
     private readonly IClockPropsContext _context;
@@ -75,7 +75,7 @@ public class ClockController : ControllerBase
             _logger.LogInformation("Validating model of new preset...");
             if (preset == null)
             {
-                _logger.LogError("An error occurred while saving the preset. Preset is not empty");
+                _logger.LogError("An error occurred while saving the preset. Preset is null");
                 return BadRequest("Preset data is required.");
             }
             else if (!ModelState.IsValid)

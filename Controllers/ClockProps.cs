@@ -18,15 +18,15 @@ public class ClockProps {
     [Required(ErrorMessage = "Clock color is required.")]
     public string ClockFontColor { get; set; }
 
-    public ClockProps()
-    {
-        //ID = 0;
-        //FontFamily = "courier";
-        //TitleFontSize = 64;
-        //ClockFontSize = 48;
-        //BlinkColons = true;
-        ////FontColor = "black";
-        //TitleFontColor = "black";
-        //ClockFontColor = "black";
-    }
+    //public ClockProps()
+    //{
+    //    //ID = 0;
+    //    //FontFamily = "courier";
+    //    //TitleFontSize = 64;
+    //    //ClockFontSize = 48;
+    //    //BlinkColons = true;
+    //    ////FontColor = "black";
+    //    //TitleFontColor = "black";
+    //    //ClockFontColor = "black";
+    //}
 }

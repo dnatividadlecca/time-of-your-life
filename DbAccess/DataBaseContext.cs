@@ -1,11 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using time.Controllers;
+using time_of_your_life.Controllers;
 
 namespace time_of_your_life.DbAccess
 {
     public class DataBaseContext : DbContext
     {
         public DbSet<ClockProps> clockProps { get; set; } // Table for presets
+        public DbSet<AlarmProps> alarmProps { get; set; } // Table for alarms
 
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 

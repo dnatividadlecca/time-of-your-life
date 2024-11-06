@@ -17,18 +17,16 @@ namespace time_of_your_life.DbAccess
             _context = context;
         }
 
-        public async Task<ClockProps> SavePreset(ClockProps preset)
+        public async Task<ClockProps> GetPresetById(int id)
         {
             try
             {
-                _context.clockProps.Add(preset);
-                await _context.SaveChangesAsync();
-                return preset;
-
+                return await _context.clockProps.FindAsync(id);
             }
-            catch (Exception ex) {
-                throw new InvalidOperationException("The preset could not be saved", ex);
-            }            
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("There was an issue trying to get preset id#" + id, ex);
+            }
         }
 
         public async Task<IEnumerable<ClockProps>> ListAllPresets()
@@ -39,19 +37,22 @@ namespace time_of_your_life.DbAccess
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("The preset could not be saved", ex);
+                throw new InvalidOperationException("The was an issue trying to list all presets", ex);
             }
         }
 
-        public async Task<ClockProps> GetPresetById(int id)
+        public async Task<ClockProps> SavePreset(ClockProps preset)
         {
             try
             {
-                return await _context.clockProps.FindAsync(id);
+                _context.clockProps.Add(preset);
+                await _context.SaveChangesAsync();
+                return preset;
+
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("There was an issue trying to get preset id#" + id, ex);
+                throw new InvalidOperationException("The preset could not be saved", ex);
             }
         }
 
@@ -80,7 +81,7 @@ namespace time_of_your_life.DbAccess
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException("The preset could not be saved", ex);
+                throw new InvalidOperationException("The preset could not be updated", ex);
             }
         }
     }

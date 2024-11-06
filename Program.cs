@@ -10,6 +10,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<DataBaseContext>(options =>
     options.UseSqlite("Data Source=time_of_your_life.db"));
 builder.Services.AddScoped<IClockPropsContext, ClockPropsContext>();
+builder.Services.AddScoped<IAlarmPropsContext, AlarmPropsContext>();
+
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

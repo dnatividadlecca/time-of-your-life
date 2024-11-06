@@ -23,7 +23,7 @@ function SetClockProps(props) {
     const [titleColors, setTitleColors] = useState([clockProps.titlefontColor]);
     const [clockColors, setClockColors] = useState([clockProps.clockfontColor]);
 
-    // Function to update a specific color
+    //Handles title color change
     const handleTitleColorChange = (index, newColor) => {
         const updatedColors = [...titleColors];
         updatedColors[index] = newColor;
@@ -31,17 +31,20 @@ function SetClockProps(props) {
         setClockProps();
     };
 
-    const handlClockColorChange = (index, newColor) => {
+    //Handles clock color change
+    const handleClockColorChange = (index, newColor) => {
         const updatedColors = [...clockColors];
         updatedColors[index] = newColor;
         setClockColors(updatedColors);
         setClockProps();
     };
 
+    
     useEffect(() => {
         fetchPresets();
     }, []);
 
+    //loads all presets saved on db
     const fetchPresets = async () => {
         try {
             const response = await fetch('clock/presets');
@@ -66,7 +69,6 @@ function SetClockProps(props) {
         props.fontFamily = document.getElementById('fontFamily').value
         props.titleFontSize = document.getElementById('titleFontSizeSlide').value
         props.clockFontSize = document.getElementById('clockFontSizeSlide').value
-        //props.titlefontColor = document.getElementById('titleFontColor').value
         props.titlefontColor = document.getElementById('titleFontColorPicker').value
         props.clockfontColor = document.getElementById('clockfontColor').value
         props.blinkColons = document.getElementById('blinkColons').checked
@@ -80,7 +82,6 @@ function SetClockProps(props) {
 
     const setClockPropsFromCheckBox = (preset) => {
         if (preset !== null) {
-            //alert(preset.titleFontColor)
             document.getElementById('fontFamily').value = preset.fontFamily;
             setTempFontFamily(preset.fontFamily)
 
@@ -89,15 +90,12 @@ function SetClockProps(props) {
 
             document.getElementById('titleFontColorPicker').value = preset.titleFontColor;
             document.getElementById('titleFontColor').value = preset.titleFontColor;
-            ////setTitleColor(preset.titleFontColor)
-            //setTitleColor(preset.titleFontColor)
 
             document.getElementById('clockFontSizeSlide').value = preset.clockFontSize;
             setClockFontSize(preset.clockFontSize)
 
             document.getElementById('clockFontColorPicker').value = preset.clockFontColor;
             document.getElementById('clockfontColor').value = preset.clockFontColor;
-            //setClockColor(preset.clockFontColor)
         }
         setClockProps();
         setTitleUI();
@@ -236,14 +234,9 @@ function SetClockProps(props) {
         }
     }
     const savePreset = async () => {
-        //alert(TempfontFamily)
-        //alert(fontFamily)
-        //alert(titleColors)
         const vFontFamily = TempfontFamily === undefined ? fontFamily : TempfontFamily;
-        //alert(vFontFamily)
         const presetData = {
             FontFamily: vFontFamily,
-            //FontFamily: fontFamily,
             TitleFontSize: titlefontSize,
             ClockFontSize: clockfontSize,
             TitleFontColor: titleColors[0],
@@ -276,7 +269,6 @@ function SetClockProps(props) {
         const presetData = {
             ID: selectedPresetId,
             FontFamily: vFontFamily,
-            //FontFamily: fontFamily,
             TitleFontSize: titlefontSize,
             ClockFontSize: clockfontSize,
             TitleFontColor: titleColors[0],
@@ -363,8 +355,8 @@ function SetClockProps(props) {
                         <div>
                             <input id="titleFontSizeSlide"
                                 type="range"
-                                min="1"        // Minimum font size
-                                max="100"        // Maximum font size
+                                min="1"         // Minimum font size
+                                max="100"       // Maximum font size
                                 value={titlefontSize}
                                 onChange={handleTitleFontSizeChange}
                                 onBlur={handleFontFamilyBlur}
@@ -376,8 +368,8 @@ function SetClockProps(props) {
                         <div>
                             <input id="clockFontSizeSlide"
                                 type="range"
-                                min="1"        // Minimum font size
-                                max="100"        // Maximum font size
+                                min="1"         // Minimum font size
+                                max="100"       // Maximum font size
                                 value={clockfontSize}
                                 onChange={handleClockFontSizeChange}
                             />
@@ -386,7 +378,6 @@ function SetClockProps(props) {
                     <div>
                         <div>Title Font Color</div>
                         <div>
-                            {/*<button onClick={setClockProps}>✓</button>*/}
                             {titleColors.map((color, index) => (
                                 <div key={index}>
                                     <div class="ColorCenteredDiv">
@@ -421,7 +412,7 @@ function SetClockProps(props) {
                                             id="clockFontColorPicker"
                                             type="color"
                                             value={color}
-                                            onChange={(e) => handlClockColorChange(index, e.target.value)}
+                                            onChange={(e) => handleClockColorChange(index, e.target.value)}
                                         />
                                     </div>
                                     <div>
@@ -436,7 +427,6 @@ function SetClockProps(props) {
                                     </div>
                                 </div>
                             ))}
-                            {/*<button onClick={setClockProps}>✓</button>*/}
                         </div>
                     </div>
                     <div>
