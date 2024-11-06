@@ -16,3 +16,22 @@
   width: 40%;
   min-height: 600px;
 }
+
+#ClockCheckboxLabel {
+    text-align: left;
+    display: inline-block;
+    flex: 1;
+    word-wrap: break-word;
+    max-width: 200px;
+    line-height: 1.5;
+}
+
+.#ColorCenteredDiv {
+    position: absolute;
+    top: 50%; /* 50% of the height */
+    left: 50%; /* 50% of the width */
+    transform: translate(-50%, -50%); /* Adjust to center */
+    padding: 20px;
+    background-color: lightgreen;
+    border: 1px solid green;
+}

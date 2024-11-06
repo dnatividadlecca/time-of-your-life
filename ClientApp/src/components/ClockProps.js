@@ -6,5 +6,7 @@ export default class ClockProps {
     this.clockFontSize = 48
     this.blinkColons = true
     this.fontColor = 'black'
+    this.titlefontColor = '#000000'
+    this.clockfontColor = '#000000'
   }
 }
