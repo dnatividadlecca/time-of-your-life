@@ -14,6 +14,7 @@ function Clock(props) {
 
     const addTimeZone = () => {
         setClocks([...clocks, timeZone]); //Adds a new timeZone
+        //saveTimeZone();
     };
 
     const handleTimeZoneChange = (e) => {
@@ -21,7 +22,6 @@ function Clock(props) {
     };
 
     const getCurrentTime = (zone) => {
-        //alert(zone)
         return moment().tz(zone).format('hh:mm:ss A');
     };
 
@@ -31,6 +31,7 @@ function Clock(props) {
 
     useEffect(() => {
         const timerId = setInterval(refreshClock, 1000)
+        fetchTimeZones();
         return function cleanup() {
             clearInterval(timerId)
         }
@@ -46,6 +47,48 @@ function Clock(props) {
         } catch (err) {
             setDate(new Date());
             console.error('Esto es un error: ' + err);
+        }
+    };
+
+    const fetchTimeZones = async () => {
+        try {
+            const response = await fetch('clock/timezones');
+            if (response.ok) {
+                const data = await response.json();
+                const zones = data.map(item => item.zone);
+                setClocks(zones);
+                console.log(data)
+            }
+        } catch (error) {
+            setDate(new Date());
+            console.error('Error fetching time zones:', error);
+            alert('Error connecting to the server.');
+        }
+    };
+
+    const saveTimeZone = async () => {
+        const timeZoneData = {
+            Zone: timeZone
+        };
+        console.log(timeZoneData)
+        try {
+            const response = await fetch('clock/timezones', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(timeZoneData)
+            });
+
+            if (response.ok) {
+                alert('Time zone saved successfully!');
+                fetchTimeZones();
+            } else {
+                alert('Failed to save time zone.');
+            }
+        } catch (error) {
+            console.error('Error saving time zone:', error);
+            alert('Error connecting to the server.');
         }
     };
 
@@ -125,7 +168,8 @@ function Clock(props) {
                             </option>
                         ))}
                     </select>
-                    <button onClick={addTimeZone}>Add</button>
+                    {/*<button onClick={addTimeZone}>Add</button>*/}
+                    <button onClick={saveTimeZone}>Add</button>
                 </div>
             </div>
             <div style={{ marginTop: '20px' }}>
