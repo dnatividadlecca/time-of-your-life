@@ -12,11 +12,6 @@ function Clock(props) {
     const timeZonesList = moment.tz.names().filter(zone => !zone.includes("GMT")); //Remove GMT times to avoid confusion
     const [timeZone, setTimeZone] = useState(timeZonesList[0]); //List first timezone from timeZonesList
 
-    //const addTimeZone = () => {
-    //    setClocks([...clocks, timeZone]); //Adds a new timeZone
-    //    //saveTimeZone();
-    //};
-
     const handleTimeZoneChange = (e) => {
         setTimeZone(e.target.value);
     };
@@ -37,6 +32,7 @@ function Clock(props) {
         }
     }, [])
 
+    //fetches time in server
     const fetchServerTime = async () => {
         try {
             const response = await fetch('clock/serverTime');
@@ -50,6 +46,7 @@ function Clock(props) {
         }
     };
 
+    //fetches all saved time zones
     const fetchTimeZones = async () => {
         try {
             const response = await fetch('clock/timezones');
@@ -66,6 +63,7 @@ function Clock(props) {
         }
     };
 
+    //saves selected time zone
     const saveTimeZone = async () => {
         const timeZoneData = {
             Zone: timeZone
@@ -96,7 +94,6 @@ function Clock(props) {
     if (props.clockProps.blinkColons & (date.getSeconds() % 2 === 0) && showTextTime === false) {
         displayText = displayText.replace(/:/g, ' ')
     }
-    
     const displayTime = showTextTime ? convertTimeToText(displayText) : displayText;
 
     let displayStyle = {
