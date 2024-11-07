@@ -6,16 +6,30 @@ namespace time_of_your_life.Interfaces
 {
     public interface IClockPropsContext
     {
-        Task<ClockProps> SavePreset(ClockProps preset);
-
+        #region presets
         Task<IEnumerable<ClockProps>> ListAllPresets();
 
         Task<ClockProps> GetPresetById(int id);
 
-        Task<ClockProps> UpdatePreset(ClockProps updatedPreset);
+        Task<ClockProps> SavePreset(ClockProps preset);
 
+        Task<ClockProps> UpdatePreset(ClockProps updatedPreset);
+        #endregion
+
+        #region time zones
         Task<IEnumerable<ClockTimeZone>> ListAllTimeZones();
 
         Task<ClockTimeZone> SaveTimeZone(ClockTimeZone newTimeZone);
+        #endregion
+
+        #region alarms
+        Task<IEnumerable<AlarmProps>> ListAllAlarms();
+
+        Task<AlarmProps> GetAlarmById(int id);
+
+        Task<AlarmProps> SaveAlarm(AlarmProps newAlarm);
+
+        Task<AlarmProps> UpdateAlarm(AlarmProps updatedAlarm);
+        #endregion
     }
 }

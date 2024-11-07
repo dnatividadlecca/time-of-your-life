@@ -1,11 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Linq;
 using time_of_your_life.Controllers;
-using time_of_your_life.DbAccess;
 using time_of_your_life.Interfaces;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace time.Controllers;
 
@@ -13,8 +8,6 @@ namespace time.Controllers;
 [Route("[controller]")]
 public class ClockController : ControllerBase
 {
-    //private static List<ClockProps> _presets = new List<ClockProps>();
-
     private readonly ILogger<ClockController> _logger;
     private readonly IClockPropsContext _context;
 
@@ -24,7 +17,7 @@ public class ClockController : ControllerBase
         _context = clockPropsContext;
     }
 
-    [HttpGet("presets")]
+    [HttpGet, Route("presets")]
     public async Task<ActionResult<IEnumerable<ClockProps>>> GetPresets()
     {
         List<ClockProps> presets;
@@ -43,7 +36,7 @@ public class ClockController : ControllerBase
         return Ok(presets);
     }
 
-    [HttpGet("presets/{id}")]
+    [HttpGet, Route("presets/{id}")]
     public async Task<ActionResult<ClockProps>> GetPresetById(int id)
     {
         try
@@ -68,7 +61,7 @@ public class ClockController : ControllerBase
 
     }
 
-    [HttpPost("presets")]
+    [HttpPost, Route("presets")]
     public async Task<IActionResult> SavePreset([FromBody] ClockProps preset)
     {
         try
@@ -105,7 +98,7 @@ public class ClockController : ControllerBase
 
     }
 
-    [HttpPut("presets")]
+    [HttpPut, Route("presets")]
     public async Task<IActionResult> UpdatePreset([FromBody] ClockProps updatedPreset)
     {
         try
@@ -152,7 +145,7 @@ public class ClockController : ControllerBase
         
     }
 
-    [HttpGet("timezones")]
+    [HttpGet, Route("timezones")]
     public async Task<ActionResult<IEnumerable<ClockTimeZone>>> GetTimeZones()
     {
         List<ClockTimeZone> _timeZones;
@@ -171,7 +164,7 @@ public class ClockController : ControllerBase
         return Ok(_timeZones);
     }
 
-    [HttpPost("timezones")]
+    [HttpPost, Route("timezones")]
     public async Task<IActionResult> SaveTimeZone([FromBody] ClockTimeZone newTimeZone)
     {
         try

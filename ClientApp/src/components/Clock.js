@@ -12,10 +12,10 @@ function Clock(props) {
     const timeZonesList = moment.tz.names().filter(zone => !zone.includes("GMT")); //Remove GMT times to avoid confusion
     const [timeZone, setTimeZone] = useState(timeZonesList[0]); //List first timezone from timeZonesList
 
-    const addTimeZone = () => {
-        setClocks([...clocks, timeZone]); //Adds a new timeZone
-        //saveTimeZone();
-    };
+    //const addTimeZone = () => {
+    //    setClocks([...clocks, timeZone]); //Adds a new timeZone
+    //    //saveTimeZone();
+    //};
 
     const handleTimeZoneChange = (e) => {
         setTimeZone(e.target.value);
@@ -168,7 +168,6 @@ function Clock(props) {
                             </option>
                         ))}
                     </select>
-                    {/*<button onClick={addTimeZone}>Add</button>*/}
                     <button onClick={saveTimeZone}>Add</button>
                 </div>
             </div>
