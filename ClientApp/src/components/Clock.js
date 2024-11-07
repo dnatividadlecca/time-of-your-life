@@ -1,12 +1,29 @@
 import { useState, useEffect } from 'react'
 import convertTimeToText from './TimeToTextHanddle';
+import moment from 'moment-timezone';
 
 function Clock(props) {
     const [date, setDate] = useState(new Date())
     const [title, setTitle] = useState('The Time of Your Life');
     const [tempTitle, setTempTitle] = useState(title);
-   //const [isCheckedTimeText] = useState(true);
     const [showTextTime, setShowTextTime] = useState(false);
+
+    const [clocks, setClocks] = useState([]);
+    const timeZonesList = moment.tz.names().filter(zone => !zone.includes("GMT")); //Remove GMT times to avoid confusion
+    const [timeZone, setTimeZone] = useState(timeZonesList[0]); //List first timezone from timeZonesList
+
+    const addTimeZone = () => {
+        setClocks([...clocks, timeZone]); //Adds a new timeZone
+    };
+
+    const handleTimeZoneChange = (e) => {
+        setTimeZone(e.target.value);
+    };
+
+    const getCurrentTime = (zone) => {
+        //alert(zone)
+        return moment().tz(zone).format('hh:mm:ss A');
+    };
 
     function refreshClock() {
         fetchServerTime()
@@ -98,6 +115,25 @@ function Clock(props) {
                       Show time in text format!
                   </label>
                 </div>
+                <br></br>
+                <div>
+                    <label>Add time in: </label>
+                    <select value={timeZone} onChange={handleTimeZoneChange}>
+                        {timeZonesList.map((zone) => (
+                            <option key={zone} value={zone}>
+                                {zone}
+                            </option>
+                        ))}
+                    </select>
+                    <button onClick={addTimeZone}>Add</button>
+                </div>
+            </div>
+            <div style={{ marginTop: '20px' }}>
+                {clocks.map((zone, index) => (
+                    <div key={index}>
+                        Time in {zone} : {getCurrentTime(zone)}
+                    </div>
+                ))}
             </div>
         </div>
   );

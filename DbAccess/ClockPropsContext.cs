@@ -84,5 +84,6 @@ namespace time_of_your_life.DbAccess
                 throw new InvalidOperationException("The preset could not be updated", ex);
             }
         }
+
     }
 }
