@@ -8,6 +8,7 @@ namespace time_of_your_life.DbAccess
     {
         public DbSet<ClockProps> clockProps { get; set; } // Table for presets
         public DbSet<AlarmProps> alarmProps { get; set; } // Table for alarms
+        public DbSet<ClockTimeZone> timeZones { get; set; } // Table for clock time zones
 
         public DataBaseContext(DbContextOptions<DataBaseContext> options) : base(options) { }
 

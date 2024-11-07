@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using time.Controllers;
+using time_of_your_life.Controllers;
 using time_of_your_life.Interfaces;
 
 namespace time_of_your_life.DbAccess
@@ -85,5 +86,31 @@ namespace time_of_your_life.DbAccess
             }
         }
 
+        public async Task<IEnumerable<ClockTimeZone>> ListAllTimeZones()
+        {
+            try
+            {
+                return await _context.timeZones.ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("The was an issue trying to list all presets", ex);
+            }
+        }
+
+        public async Task<ClockTimeZone> SaveTimeZone(ClockTimeZone newTimeZone)
+        {
+            try
+            {
+                _context.timeZones.Add(newTimeZone);
+                await _context.SaveChangesAsync();
+                return newTimeZone;
+
+            }
+            catch (Exception ex)
+            {
+                throw new InvalidOperationException("The time zone could not be saved", ex);
+            }
+        }
     }
 }

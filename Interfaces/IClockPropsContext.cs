@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using time.Controllers;
+using time_of_your_life.Controllers;
 
 namespace time_of_your_life.Interfaces
 {
@@ -12,5 +13,9 @@ namespace time_of_your_life.Interfaces
         Task<ClockProps> GetPresetById(int id);
 
         Task<ClockProps> UpdatePreset(ClockProps updatedPreset);
+
+        Task<IEnumerable<ClockTimeZone>> ListAllTimeZones();
+
+        Task<ClockTimeZone> SaveTimeZone(ClockTimeZone newTimeZone);
     }
 }

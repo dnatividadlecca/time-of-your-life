@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using time_of_your_life.Controllers;
 using time_of_your_life.DbAccess;
 using time_of_your_life.Interfaces;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -149,5 +150,63 @@ public class ClockController : ControllerBase
             return BadRequest($"An error occurred while fetching server time. {ex.Message}");
         }
         
+    }
+
+    [HttpGet("timezones")]
+    public async Task<ActionResult<IEnumerable<ClockTimeZone>>> GetTimeZones()
+    {
+        List<ClockTimeZone> _timeZones;
+        try
+        {
+            _logger.LogInformation("Trying to get all time zones");
+            _timeZones = (List<ClockTimeZone>)await _context.ListAllTimeZones();
+            _logger.LogInformation("Time zones retrieved from database");
+        }
+        catch (Exception)
+        {
+            _logger.LogError("An error occurred while fetching all time zones. Empty list will be loaded");
+            _timeZones = new List<ClockTimeZone>();
+        }
+
+        return Ok(_timeZones);
+    }
+
+    [HttpPost("timezones")]
+    public async Task<IActionResult> SaveTimeZone([FromBody] ClockTimeZone newTimeZone)
+    {
+        try
+        {
+            _logger.LogInformation("Validating model of new time zone...");
+            if (newTimeZone == null)
+            {
+                _logger.LogError("An error occurred while saving the time zone. Object is null");
+                return BadRequest("Time zone data is required.");
+            }
+            else if (!ModelState.IsValid)
+            {
+                _logger.LogError("An error occurred while saving the time zone. Object is not valid");
+                return BadRequest(ModelState);
+            }
+
+            _logger.LogInformation("Trying to save new time zone...");
+            var savedPreset = await _context.SaveTimeZone(newTimeZone);
+
+            if (savedPreset.ID != 0)
+            {
+                _logger.LogInformation("Time zone saved successfully.");
+                return Ok("Time zone saved successfully.");
+            }
+            else
+            {
+                _logger.LogError("An error occurred while saving the time zone.");
+                return BadRequest("An error occurred while saving the time zone.");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An error occurred while saving the time zone. " + ex.Message);
+            return BadRequest("An error occurred while saving the time zone. " + ex.Message);
+        }
+
     }
 }
