@@ -11,7 +11,7 @@ function SetClockProps(props) {
     const [presets, setPresets] = useState([])
     const [loading, setLoading] = useState(true)
 
-    const [TempfontFamily, setTempFontFamily] = useState(fontFamily)
+    //const [TempfontFamily, setTempFontFamily] = useState(fontFamily)
     const [titlefontSize, setTitleFontSize] = useState(clockProps.titleFontSize);
     const [clockfontSize, setClockFontSize] = useState(clockProps.clockFontSize);
 
@@ -39,7 +39,7 @@ function SetClockProps(props) {
         setClockProps();
     };
 
-    
+
     useEffect(() => {
         fetchPresets();
     }, []);
@@ -80,10 +80,11 @@ function SetClockProps(props) {
         props.setClockProps(setProps)
     }
 
+    //loads values from checked preset
     const setClockPropsFromCheckBox = (preset) => {
         if (preset !== null) {
             document.getElementById('fontFamily').value = preset.fontFamily;
-            setTempFontFamily(preset.fontFamily)
+            setFontFamily(preset.fontFamily)
 
             document.getElementById('titleFontSizeSlide').value = preset.titleFontSize;
             setTitleFontSize(preset.titleFontSize)
@@ -152,7 +153,7 @@ function SetClockProps(props) {
             if (titleColor.length < 1) {
                 alert("Font Color can't be empty.");
             } else {
-                setTempFontFamily(titleColor.value)
+                setFontFamily(titleColor.value)
                 setClockProps();
             }
         }
@@ -162,7 +163,7 @@ function SetClockProps(props) {
         if (titleColor.length < 1) {
             alert("Font Color can't be empty.");
         } else {
-            setTempFontFamily(titleColor.value)
+            setFontFamily(titleColor.value)
             setClockProps();
         }
     };
@@ -193,12 +194,12 @@ function SetClockProps(props) {
     };
 
     const handleFontFamilyChange = (event) => {
-        setTempFontFamily(event.target.value);
+        setFontFamily(event.target.value);
     };
 
     const handleFontFamilyKeyDown = (event) => {
         if (event.key === 'Enter' || event.key === 'Tab') {
-            if (TempfontFamily.length < 1) {
+            if (fontFamily.length < 1) {
                 alert("Font Family can't be empty.");
             } else {
                 setClockProps();
@@ -206,7 +207,7 @@ function SetClockProps(props) {
         }
     };
     const handleFontFamilyBlur = () => {
-        if (TempfontFamily.length < 1) {
+        if (fontFamily.length < 1) {
             alert("Font Family can't be empty.");
         } else {
             setClockProps();
@@ -234,7 +235,8 @@ function SetClockProps(props) {
         }
     }
     const savePreset = async () => {
-        const vFontFamily = TempfontFamily === undefined ? fontFamily : TempfontFamily;
+        //const vFontFamily = TempfontFamily === undefined ? fontFamily : TempfontFamily;
+        const vFontFamily = fontFamily;
         const presetData = {
             FontFamily: vFontFamily,
             TitleFontSize: titlefontSize,
@@ -265,7 +267,8 @@ function SetClockProps(props) {
     };
 
     const updatePreset = async () => {
-        const vFontFamily = TempfontFamily === undefined ? fontFamily : TempfontFamily;            
+        //const vFontFamily = TempfontFamily === undefined ? fontFamily : TempfontFamily;            
+        const vFontFamily = fontFamily;
         const presetData = {
             ID: selectedPresetId,
             FontFamily: vFontFamily,
@@ -343,7 +346,7 @@ function SetClockProps(props) {
                         <div>
                             <input
                                 id="fontFamily"
-                                value={TempfontFamily}
+                                value={fontFamily}
                                 onKeyDown={handleFontFamilyKeyDown}
                                 onChange={handleFontFamilyChange}
                             />

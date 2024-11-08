@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.ComponentModel.DataAnnotations;
 using time.Controllers;
 using time_of_your_life.Interfaces;
 
@@ -45,6 +46,47 @@ namespace time_of_your_life.Test
 
             // Assert
             Assert.IsType<NotFoundObjectResult>(result.Result);
+        }
+
+        [Fact]
+        public async Task CheckIfPresetSaves()
+        {
+            var newPreset = new ClockProps
+            {
+                FontFamily = "Times",
+                TitleFontSize = 30,
+                ClockFontSize = 88,
+                TitleFontColor = "#c91d1d",
+                ClockFontColor = "#4fce2c"
+            };
+            _mockClockService.Setup(service => service.SavePreset(newPreset)).ReturnsAsync(newPreset);
+
+            var result = await _controller.SavePreset(newPreset);
+
+            var createdResult = Assert.IsType<CreatedAtActionResult>(result);
+            var returnResult = Assert.IsType<ClockProps>(createdResult.Value);
+
+            Assert.Equal("Times", returnResult.FontFamily);
+            Assert.Equal(88, returnResult.TitleFontSize);
+        }
+
+        [Fact]
+        public async Task CheckIfUpdatesSaves()
+        {
+            var updatedPreset = new ClockProps
+            {
+                ID = 1,
+                FontFamily = "Times",
+                TitleFontSize = 30,
+                ClockFontSize = 88,
+                TitleFontColor = "#c91d1d",
+                ClockFontColor = "#4fce2c"
+            };
+            _mockClockService.Setup(service => service.UpdatePreset(updatedPreset)).ReturnsAsync(updatedPreset);
+
+            var result = await _controller.UpdatePreset(updatedPreset);
+
+            Assert.IsType<OkObjectResult>(result);
         }
     }
 }

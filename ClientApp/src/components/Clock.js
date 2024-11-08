@@ -116,7 +116,7 @@ function Clock(props) {
     };
 
     const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' || event.key === 'Tab') {
             if (tempTitle.length < 1) {
                 alert("Title can't be empty.");
             } else {

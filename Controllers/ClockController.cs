@@ -62,7 +62,7 @@ public class ClockController : ControllerBase
     }
 
     [HttpPost, Route("presets")]
-    public async Task<IActionResult> SavePreset([FromBody] ClockProps preset)
+    public async Task<ActionResult> SavePreset([FromBody] ClockProps preset)
     {
         try
         {
@@ -201,5 +201,75 @@ public class ClockController : ControllerBase
             return BadRequest("An error occurred while saving the time zone. " + ex.Message);
         }
 
+    }
+
+    [HttpPost, Route("alarms")]
+    public async Task<ActionResult> SaveAlarm([FromBody] AlarmProps newAlarm)
+    {
+        try
+        {
+            _logger.LogInformation("Validating model of new alarm...");
+            if (newAlarm == null)
+            {
+                _logger.LogError("An error occurred while saving the alarm. Preset is null");
+                return BadRequest("Preset data is required.");
+            }
+            else if (!ModelState.IsValid)
+            {
+                _logger.LogError("An error occurred while saving the alarm. Preset is not valid");
+                return BadRequest(ModelState);
+            }
+
+            _logger.LogInformation("Trying to save new alarm...");
+            var savedAlarm = await _context.SaveAlarm(newAlarm);
+
+            if (savedAlarm.Id != 0)
+            {
+                _logger.LogInformation("Alarm saved successfully.");
+                return Ok("Alarm saved successfully.");
+            }
+            else
+            {
+                _logger.LogError("An error occurred while saving the alarm.");
+                return BadRequest("An error occurred while saving the alarm.");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An error occurred while saving the alarm. " + ex.Message);
+            return BadRequest("An error occurred while saving the alarm. " + ex.Message);
+        }
+
+    }
+
+    [HttpPut, Route("alarms")]
+    public async Task<IActionResult> UpdateAlarm([FromBody] AlarmProps updatedAlarm)
+    {
+        try
+        {
+            _logger.LogInformation("Validating model of new alarm...");
+            if (updatedAlarm == null || updatedAlarm.Id == 0)
+            {
+                _logger.LogWarning("Cannot update alarm because no ID was assigned");
+                return BadRequest("Cannot update alarm because no ID was assigned");
+            }
+            else if (!ModelState.IsValid)
+            {
+                _logger.LogError("An error occurred while updating the alarm. Preset is not valid");
+                return BadRequest(ModelState);
+            }
+
+            _logger.LogInformation("Updating alarm with ID: {Id}", updatedAlarm.Id);
+            await _context.UpdateAlarm(updatedAlarm);
+
+            _logger.LogInformation("Alarm updated successfully.");
+            return Ok("Alarm updated successfully.");
+
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError("An error occurred while updating the alarm. " + ex.Message);
+            return BadRequest($"An error occurred while updating the alarm. {ex.Message}");
+        }
     }
 }
